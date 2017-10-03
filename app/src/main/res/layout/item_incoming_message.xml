@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="5dp"
+    android:paddingTop="5dp">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/chat_bubble_left"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
+
+        <TextView
+            android:id="@+id/txtTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="7dp"
+            android:paddingBottom="5dp"
+            android:paddingRight="10dp"
+            android:text="17:10" />
+
+        <LinearLayout
+            android:id="@+id/chat_company_reply_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:orientation="vertical"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/txtTime"
+            android:layout_marginStart="29dp">
+
+            <TextView
+                android:id="@+id/txtUserName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:paddingLeft="20dp"
+                android:paddingRight="8dp"
+                android:paddingTop="5dp"
+                android:text="User1"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtTextMessage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_gravity="right"
+
+                android:autoLink="web"
+                android:maxWidth="280dp"
+                android:paddingLeft="20dp"
+                android:text="Rahul Agrawal is a good boy but he does not know what he wants." />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>

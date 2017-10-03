@@ -1,4 +1,4 @@
-package com.example.chatclient;
+package com.example.chatclient.util;
 
 import android.app.Activity;
 import android.content.Context;
