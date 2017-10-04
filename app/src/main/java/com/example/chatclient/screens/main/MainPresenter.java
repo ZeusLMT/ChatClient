@@ -1,5 +1,7 @@
 package com.example.chatclient.screens.main;
 
+import android.util.Log;
+
 import com.example.chatclient.event.ResponseEvent;
 import com.example.chatclient.event.SendEvent;
 import com.example.chatclient.model.ChatMessage;
@@ -49,6 +51,9 @@ public class MainPresenter implements MainContract.Presenter {
                     String messageContent = ServerUtil.parseMessage(serverResponse);
 
                     boolean myMessage;
+
+                    Log.i("abc", "myAccount: " + myAccount);
+                    Log.i("abc", "username: " + username);
 
                     if(username.equals(myAccount)) {
                         myMessage = true;

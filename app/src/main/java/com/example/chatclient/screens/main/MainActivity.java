@@ -14,11 +14,9 @@ import android.widget.Toast;
 
 import com.example.chatclient.R;
 import com.example.chatclient.event.ResponseEvent;
-import com.example.chatclient.event.SendEvent;
 import com.example.chatclient.model.ChatMessage;
 import com.example.chatclient.screens.login.LoginActivity;
 import com.example.chatclient.service.MessReceiver;
-import com.example.chatclient.service.ServerCommands;
 import com.example.chatclient.util.ChatSharedPreference;
 import com.example.chatclient.util.ViewUtil;
 
@@ -55,13 +53,9 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        //main
-        EventBus.getDefault().post(new SendEvent("Huy", ServerCommands.SET_USERNAME));
-
         presenter = new MainPresenter(this);
 
         chatSharedPreference = new ChatSharedPreference(this);
-        chatSharedPreference.saveMyAccount("Huy");
         myAccount = chatSharedPreference.getMyAccount();
 
         //setup chat list
@@ -94,6 +88,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     @OnClick(R.id.btnSend)
     void sendMessage() {
         presenter.sendMessage(txtInput.getText().toString());
+        txtInput.setText("");
     }
 
     @OnClick(R.id.messLayout)

@@ -25,13 +25,16 @@ public class MessSender implements Runnable {
     @Override
     public void run() {
         try {
-            socket.connect(new InetSocketAddress(Config.SERVER_IP, Config.SERVER_PORT));
+            if (!socket.isConnected()) {
+                socket.connect(new InetSocketAddress(Config.SERVER_IP, Config.SERVER_PORT));
+            }
+
             out = new PrintWriter(socket.getOutputStream());
+
+            out.println(msgOut);
+            out.flush();
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        out.println(msgOut);
-        out.flush();
     }
 }
