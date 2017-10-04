@@ -1,11 +1,10 @@
 package com.example.chatclient.screens.main;
 
-import android.util.Log;
-
 import com.example.chatclient.event.ResponseEvent;
 import com.example.chatclient.event.SendEvent;
 import com.example.chatclient.model.ChatMessage;
 import com.example.chatclient.model.User;
+import com.example.chatclient.service.MessSender;
 import com.example.chatclient.service.ServerCommands;
 import com.example.chatclient.service.ServerType;
 import com.example.chatclient.util.ServerUtil;
@@ -25,8 +24,9 @@ public class MainPresenter implements MainContract.Presenter {
 
     public void sendMessage(String message) {
         //TODO: send message to server
-        EventBus.getDefault().post(new SendEvent(message, ServerCommands.SEND_MESS));
-        Log.i("abc", "sendMessage: " + message);
+        MessSender messSender = new MessSender(message);
+        Thread t = new Thread(messSender);
+        t.start();
     }
 
     @Override
@@ -38,8 +38,7 @@ public class MainPresenter implements MainContract.Presenter {
             //TODO: categorize
             String serverType = ServerUtil.parseType(serverMessage);
             String serverResponse = ServerUtil.parseServerResponse(serverMessage);
-            Log.i("abc", "serverResponse: " + serverResponse);
-            Log.i("abc", "serverType: " + serverType);
+
             switch (serverType) {
                 case ServerType.ERROR:
                     view.showError(serverResponse);
@@ -51,7 +50,6 @@ public class MainPresenter implements MainContract.Presenter {
 
                     boolean myMessage;
 
-                    Log.i("abc", "myAccount: " + myAccount);
                     if(username.equals(myAccount)) {
                         myMessage = true;
                     } else {

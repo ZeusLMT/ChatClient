@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -18,7 +17,7 @@ import com.example.chatclient.event.ResponseEvent;
 import com.example.chatclient.event.SendEvent;
 import com.example.chatclient.model.ChatMessage;
 import com.example.chatclient.screens.login.LoginActivity;
-import com.example.chatclient.service.ChatService;
+import com.example.chatclient.service.MessReceiver;
 import com.example.chatclient.service.ServerCommands;
 import com.example.chatclient.util.ChatSharedPreference;
 import com.example.chatclient.util.ViewUtil;
@@ -68,14 +67,14 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         //setup chat list
         setupChatList();
 
-        //Start service
-        startService();
+        //Start mess receiver
+        startMessReceiver();
     }
 
-    private void startService() {
-        Intent serviceIntent = new Intent(this, ChatService.class);
-        startService(serviceIntent);
-        Log.i("abc", "Service start: ");
+    private void startMessReceiver() {
+        MessReceiver msgReceiver = new MessReceiver();
+        Thread t = new Thread(msgReceiver);
+        t.start();
     }
 
     private void setupChatList() {
@@ -124,7 +123,6 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     public void showMess(ChatMessage chatMessage) {
         chatMessageList.add(chatMessage);
         messageAdapter.notifyDataSetChanged();
-        Log.i("abc", "onConnectSuccess: " + chatMessage.getMessage());
     }
 
     @Override
@@ -156,7 +154,6 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(ResponseEvent event) {
         presenter.receiveMessage(event, myAccount);
-        Log.i("abc", "onMessageEvent: " + event.getServerMessage());
     }
 
     @Override
