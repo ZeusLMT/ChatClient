@@ -12,7 +12,7 @@ public class ServerUtil {
     }
 
     public static long parseTimeStamp(String serverMessage) {
-        String timeStampString = serverMessage.substring(serverMessage.lastIndexOf("from") + "from ".length(), serverMessage.lastIndexOf("@"));
+        String timeStampString = serverMessage.substring(serverMessage.lastIndexOf("@") + 1, serverMessage.length());
         long timeStamp = Long.parseLong(timeStampString);
         return timeStamp;
     }

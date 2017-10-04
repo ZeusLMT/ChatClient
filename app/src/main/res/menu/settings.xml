@@ -3,6 +3,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/itemChangeUsername"
-        android:title="Change username" />
+        android:id="@+id/itemLogout"
+        android:title="Log out" />
 </menu>

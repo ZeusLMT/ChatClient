@@ -1,6 +1,6 @@
-package com.example.chatclient.screens;
+package com.example.chatclient.screens.main;
 
-import com.example.chatclient.MessageEvent;
+import com.example.chatclient.event.MessageEvent;
 import com.example.chatclient.model.ChatMessage;
 
 /**
@@ -13,6 +13,8 @@ public interface MainContract {
         void onConnectSuccess(ChatMessage chatMessage);
 
         void onConnectFailure(String error);
+
+        void logOutSuccess(String success);
     }
 
     interface Presenter {
@@ -20,6 +22,8 @@ public interface MainContract {
         void sendMessage(String message);
 
         void receiveMessage(MessageEvent event, String myAccount);
+
+        void logout(String userName);
 
     }
 }

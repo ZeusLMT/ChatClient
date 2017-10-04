@@ -1,6 +1,8 @@
-package com.example.chatclient.screens;
+package com.example.chatclient.screens.main;
 
-import com.example.chatclient.MessageEvent;
+import android.util.Log;
+
+import com.example.chatclient.event.MessageEvent;
 import com.example.chatclient.model.ChatMessage;
 import com.example.chatclient.model.User;
 import com.example.chatclient.util.ServerUtil;
@@ -31,6 +33,7 @@ public class MainPresenter implements MainContract.Presenter {
 
             boolean myMessage;
 
+            Log.i("abc", "myAccount: " + myAccount);
             if(username.equals(myAccount)) {
                 myMessage = true;
             } else {
@@ -44,5 +47,10 @@ public class MainPresenter implements MainContract.Presenter {
             view.onConnectFailure(event.getServerMessage());
         }
 
+    }
+
+    @Override
+    public void logout(String userName) {
+        view.logOutSuccess("Logout successfully");
     }
 }

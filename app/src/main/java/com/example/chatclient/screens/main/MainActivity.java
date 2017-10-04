@@ -1,8 +1,9 @@
-package com.example.chatclient.screens;
+package com.example.chatclient.screens.main;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
@@ -12,13 +13,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.chatclient.DialogFragment;
-import com.example.chatclient.MessageEvent;
+import com.example.chatclient.event.MessageEvent;
 import com.example.chatclient.R;
 import com.example.chatclient.model.ChatMessage;
+import com.example.chatclient.screens.login.LoginActivity;
 import com.example.chatclient.service.ChatReceiveService;
 import com.example.chatclient.util.ChatSharedPreference;
-import com.example.chatclient.util.MessageAdapter;
 import com.example.chatclient.util.ViewUtil;
 
 import org.greenrobot.eventbus.EventBus;
@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     private ChatSharedPreference chatSharedPreference;
     private List<ChatMessage> chatMessageList;
     private MessageAdapter messageAdapter;
+    private String myAccount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,18 +55,28 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         ButterKnife.bind(this);
 
         presenter = new MainPresenter(this);
+
         chatSharedPreference = new ChatSharedPreference(this);
-        chatSharedPreference.saveMyAccount("Tuan");
+        myAccount = chatSharedPreference.getMyAccount();
 
         //setup chat list
-        chatMessageList = new ArrayList<>();
-        messageAdapter = new MessageAdapter(chatMessageList);
-        recycleView.setAdapter(messageAdapter);
+        setupChatList();
 
         //Start service
+        startService();
+    }
+
+    private void startService() {
         Intent serviceIntent = new Intent(this, ChatReceiveService.class);
         startService(serviceIntent);
         Log.i("abc", "Service start: ");
+    }
+
+    private void setupChatList() {
+        chatMessageList = new ArrayList<>();
+        messageAdapter = new MessageAdapter(chatMessageList, this);
+        recycleView.setAdapter(messageAdapter);
+        recycleView.setLayoutManager(new LinearLayoutManager(this));
     }
 
     @Override
@@ -77,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
     @OnClick(R.id.btnSend)
     void sendMessage() {
-        //
+        presenter.sendMessage(txtInput.getText().toString());
     }
 
     @OnClick(R.id.messLayout)
@@ -95,9 +106,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.itemChangeUsername:
-                DialogFragment newFragment = new DialogFragment();
-                newFragment.show(getSupportFragmentManager(), "dialogfragment");
+            case R.id.itemLogout:
+                presenter.logout(myAccount);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -117,13 +127,24 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         Log.i("abc", "onConnectFailure: " + error);
     }
 
+    @Override
+    public void logOutSuccess(String success) {
+        Toast.makeText(this, success, Toast.LENGTH_SHORT).show();
+
+        //TODO: clear SharePref
+        chatSharedPreference.clear();
+
+        //TODO: goto login activity
+        Intent intent = new Intent(this, LoginActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+    }
+
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(MessageEvent event) {
-        String myAccount = chatSharedPreference.getMyAccount();
         presenter.receiveMessage(event, myAccount);
         Log.i("abc", "onMessageEvent: " + event.getServerMessage());
-
     }
 
     @Override

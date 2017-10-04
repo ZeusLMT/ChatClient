@@ -1,6 +1,8 @@
-package com.example.chatclient.util;
+package com.example.chatclient.screens.main;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,16 +19,19 @@ import java.util.List;
 
 public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHolder> {
     private List<ChatMessage> chatMessageList;
+    private Context context;
     private static final int TYPE_MY_MESSAGE = 1;
     private static final int TYPE_OTHER_MESSAGE = 2;
 
-    public MessageAdapter(List<ChatMessage> chatMessageList) {
+    public MessageAdapter(List<ChatMessage> chatMessageList, Context context) {
         this.chatMessageList = chatMessageList;
+        this.context = context;
     }
 
     @Override
     public MessageAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = null;
+        Log.i("abc", "viewType: " + viewType);
         switch (viewType) {
             case TYPE_MY_MESSAGE:
                 v = LayoutInflater.from(parent.getContext())
@@ -58,7 +63,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
     public void onBindViewHolder(MessageAdapter.ViewHolder holder, int position) {
         ChatMessage chatMessage = chatMessageList.get(position);
         holder.getTxtUserName().setText(chatMessage.getUser().getName());
-        holder.getTxtTextMessage().setText(chatMessage.getMessage());
+        holder.getTxtMessage().setText(chatMessage.getMessage());
         holder.getTxtTime().setText(chatMessage.getTimestamp() + "");
     }
 
@@ -71,13 +76,13 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView txtUserName;
-        private TextView txtTextMessage;
+        private TextView txtMessage;
         private TextView txtTime;
 
         public ViewHolder(View itemView) {
             super(itemView);
             txtUserName = (TextView) itemView.findViewById(R.id.txtUserName);
-            txtTextMessage = (TextView) itemView.findViewById(R.id.txtTextMessage);
+            txtMessage = (TextView) itemView.findViewById(R.id.txtMessage);
             txtTime = (TextView) itemView.findViewById(R.id.txtTime);
         }
 
@@ -85,24 +90,13 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
             return txtUserName;
         }
 
-        public void setTxtUserName(TextView txtUserName) {
-            this.txtUserName = txtUserName;
-        }
-
-        public TextView getTxtTextMessage() {
-            return txtTextMessage;
-        }
-
-        public void setTxtTextMessage(TextView txtTextMessage) {
-            this.txtTextMessage = txtTextMessage;
+        public TextView getTxtMessage() {
+            return txtMessage;
         }
 
         public TextView getTxtTime() {
             return txtTime;
         }
 
-        public void setTxtTime(TextView txtTime) {
-            this.txtTime = txtTime;
-        }
     }
 }
