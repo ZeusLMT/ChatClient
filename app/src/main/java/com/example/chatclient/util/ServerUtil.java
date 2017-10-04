@@ -5,7 +5,6 @@ package com.example.chatclient.util;
  */
 
 public class ServerUtil {
-
     public static String parseUsername(String serverMessage) {
         String userName = serverMessage.substring(serverMessage.lastIndexOf("from") + "from ".length(), serverMessage.lastIndexOf("@"));
         return userName;
@@ -20,5 +19,13 @@ public class ServerUtil {
     public static String parseMessage(String serverMessage) {
         String message = serverMessage.substring(0, serverMessage.lastIndexOf("from") - 1);
         return message;
+    }
+
+    public static String parseType(String serverResponse) {
+        return serverResponse.substring(0, serverResponse.indexOf("."));
+    }
+
+    public static String parseServerResponse(String serverResponse) {
+        return serverResponse.substring(serverResponse.indexOf(".") + 1, serverResponse.length());
     }
 }

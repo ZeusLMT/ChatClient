@@ -13,11 +13,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.chatclient.event.MessageEvent;
 import com.example.chatclient.R;
+import com.example.chatclient.event.ResponseEvent;
+import com.example.chatclient.event.SendEvent;
 import com.example.chatclient.model.ChatMessage;
 import com.example.chatclient.screens.login.LoginActivity;
-import com.example.chatclient.service.ChatReceiveService;
+import com.example.chatclient.service.ChatService;
+import com.example.chatclient.service.ServerCommands;
 import com.example.chatclient.util.ChatSharedPreference;
 import com.example.chatclient.util.ViewUtil;
 
@@ -54,9 +56,13 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
+        //main
+        EventBus.getDefault().post(new SendEvent("Huy", ServerCommands.SET_USERNAME));
+
         presenter = new MainPresenter(this);
 
         chatSharedPreference = new ChatSharedPreference(this);
+        chatSharedPreference.saveMyAccount("Huy");
         myAccount = chatSharedPreference.getMyAccount();
 
         //setup chat list
@@ -67,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     }
 
     private void startService() {
-        Intent serviceIntent = new Intent(this, ChatReceiveService.class);
+        Intent serviceIntent = new Intent(this, ChatService.class);
         startService(serviceIntent);
         Log.i("abc", "Service start: ");
     }
@@ -115,17 +121,17 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     }
 
     @Override
-    public void onConnectSuccess(ChatMessage chatMessage) {
+    public void showMess(ChatMessage chatMessage) {
         chatMessageList.add(chatMessage);
         messageAdapter.notifyDataSetChanged();
         Log.i("abc", "onConnectSuccess: " + chatMessage.getMessage());
     }
 
     @Override
-    public void onConnectFailure(String error) {
+    public void showError(String error) {
         Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
-        Log.i("abc", "onConnectFailure: " + error);
     }
+
 
     @Override
     public void logOutSuccess(String success) {
@@ -140,9 +146,15 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         startActivity(intent);
     }
 
+    @Override
+    public void saveUserName(String userName) {
+        //TODO: save username
+        chatSharedPreference.saveMyAccount(userName);
+    }
+
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessageEvent(MessageEvent event) {
+    public void onMessageEvent(ResponseEvent event) {
         presenter.receiveMessage(event, myAccount);
         Log.i("abc", "onMessageEvent: " + event.getServerMessage());
     }

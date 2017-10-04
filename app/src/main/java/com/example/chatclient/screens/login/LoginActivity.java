@@ -39,7 +39,7 @@ public class LoginActivity extends AppCompatActivity implements LoginActivityCon
 
     @Override
     public void showLoginSuccess(String success, String userName) {
-        Toast.makeText(this, success, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, success, Toast.LENGTH_SHORT).show();
 
         //TODO: save username
         chatSharedPreference.saveMyAccount(userName);

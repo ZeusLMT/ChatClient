@@ -4,11 +4,11 @@ package com.example.chatclient.event;
  * Created by Zeus on 3/10/2017.
  */
 
-public  class MessageEvent {
+public  class ResponseEvent {
     private String serverMessage;
     private boolean connectSuccess;
 
-    public MessageEvent(String serverMessage, boolean connectSuccess) {
+    public ResponseEvent(String serverMessage, boolean connectSuccess) {
         this.serverMessage = serverMessage;
         this.connectSuccess = connectSuccess;
     }
