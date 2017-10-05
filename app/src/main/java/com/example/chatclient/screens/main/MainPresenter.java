@@ -1,17 +1,12 @@
 package com.example.chatclient.screens.main;
 
-import android.util.Log;
-
 import com.example.chatclient.event.ResponseEvent;
-import com.example.chatclient.event.SendEvent;
 import com.example.chatclient.model.ChatMessage;
 import com.example.chatclient.model.User;
 import com.example.chatclient.service.MessSender;
 import com.example.chatclient.service.ServerCommands;
 import com.example.chatclient.service.ServerType;
 import com.example.chatclient.util.ServerUtil;
-
-import org.greenrobot.eventbus.EventBus;
 
 /**
  * Created by Zeus on 3/10/2017.
@@ -36,7 +31,6 @@ public class MainPresenter implements MainContract.Presenter {
         //TODO: receive message from server
         if (event.isConnectSuccess()) {
             String serverMessage = event.getServerMessage();
-            Log.i("abc", "userlist: " + serverMessage);
 
             //TODO: categorize
             String serverType = ServerUtil.parseType(serverMessage);
@@ -52,9 +46,6 @@ public class MainPresenter implements MainContract.Presenter {
                     String messageContent = ServerUtil.parseMessage(serverResponse);
 
                     boolean myMessage;
-
-                    Log.i("abc", "myAccount: " + myAccount);
-                    Log.i("abc", "username: " + username);
 
                     if(username.equals(myAccount)) {
                         myMessage = true;
@@ -76,7 +67,7 @@ public class MainPresenter implements MainContract.Presenter {
                     view.showError(serverResponse);
                     break;
                 case ServerType.QUIT:
-                    //TODO show goodbye
+                    view.logOutSuccess(serverResponse);
                     break;
                 default:
                     break;
@@ -90,8 +81,9 @@ public class MainPresenter implements MainContract.Presenter {
     @Override
     public void logout(String userName) {
         //logout server
-        EventBus.getDefault().post(new SendEvent("", ServerCommands.QUIT));
-        view.logOutSuccess("Logout successfully");
+        MessSender messSender = new MessSender(ServerCommands.QUIT);
+        Thread t = new Thread(messSender);
+        t.start();
     }
 
     @Override

@@ -1,7 +1,5 @@
 package com.example.chatclient.service;
 
-import android.util.Log;
-
 import com.example.chatclient.App;
 import com.example.chatclient.event.ResponseEvent;
 
@@ -33,8 +31,11 @@ public class MessReceiver implements Runnable {
 
             while(true) {
                 String responseLine = is.readLine();
-                EventBus.getDefault().post(new ResponseEvent(responseLine, true));
+                if (responseLine != null) {
+                    EventBus.getDefault().post(new ResponseEvent(responseLine, true));
+                }
             }
+
 
         } catch (UnknownHostException e) {
             EventBus.getDefault().post(new ResponseEvent(Error.ERROR_UNKNOWN_HOST, false));
