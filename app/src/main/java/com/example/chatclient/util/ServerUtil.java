@@ -1,5 +1,8 @@
 package com.example.chatclient.util;
 
+import java.text.SimpleDateFormat;
+import java.util.TimeZone;
+
 /**
  * Created by Zeus on 3/10/2017.
  */
@@ -10,10 +13,14 @@ public class ServerUtil {
         return userName;
     }
 
-    public static long parseTimeStamp(String serverMessage) {
+    public static String parseTimeStamp(String serverMessage) {
         String timeStampString = serverMessage.substring(serverMessage.lastIndexOf("@") + 1, serverMessage.length());
         long timeStamp = Long.parseLong(timeStampString);
-        return timeStamp;
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm");
+        dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+
+        return dateFormat.format(timeStamp);
     }
 
     public static String parseMessage(String serverMessage) {

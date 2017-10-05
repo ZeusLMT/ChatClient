@@ -36,6 +36,7 @@ public class MainPresenter implements MainContract.Presenter {
         //TODO: receive message from server
         if (event.isConnectSuccess()) {
             String serverMessage = event.getServerMessage();
+            Log.i("abc", "userlist: " + serverMessage);
 
             //TODO: categorize
             String serverType = ServerUtil.parseType(serverMessage);
@@ -47,7 +48,7 @@ public class MainPresenter implements MainContract.Presenter {
                     break;
                 case ServerType.MESS:
                     String username = ServerUtil.parseUsername(serverResponse);
-                    long timestamp = ServerUtil.parseTimeStamp(serverResponse);
+                    String timestamp = ServerUtil.parseTimeStamp(serverResponse);
                     String messageContent = ServerUtil.parseMessage(serverResponse);
 
                     boolean myMessage;
@@ -67,6 +68,7 @@ public class MainPresenter implements MainContract.Presenter {
                 case ServerType.HISTORY:
                     break;
                 case ServerType.USERLIST:
+                    view.showUserList(serverResponse);
                     break;
                 case ServerType.USERNAME:
                     break;
@@ -90,5 +92,12 @@ public class MainPresenter implements MainContract.Presenter {
         //logout server
         EventBus.getDefault().post(new SendEvent("", ServerCommands.QUIT));
         view.logOutSuccess("Logout successfully");
+    }
+
+    @Override
+    public void getUserList() {
+        MessSender messSender = new MessSender(ServerCommands.GET_USERLIST);
+        Thread t = new Thread(messSender);
+        t.start();
     }
 }

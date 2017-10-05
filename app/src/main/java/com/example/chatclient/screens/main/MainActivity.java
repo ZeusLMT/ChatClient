@@ -63,6 +63,9 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
         //Start mess receiver
         startMessReceiver();
+
+        //hidekeyboard
+        ViewUtil.hideKeyboardWhenTouchOutside(findViewById(R.id.messLayout), this);
     }
 
     private void startMessReceiver() {
@@ -91,10 +94,11 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         txtInput.setText("");
     }
 
-    @OnClick(R.id.messLayout)
-    void hideKeyboard(){
-        ViewUtil.hideSoftKeyBoard(this);
-    }
+//    @OnClick({R.id.recyclerView, R.id.messLayout})
+//    void hideKeyboard(){
+//        Toast.makeText(this, "dmmmm", Toast.LENGTH_SHORT).show();
+//        ViewUtil.hideSoftKeyBoard(this);
+//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -108,6 +112,9 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         switch (item.getItemId()) {
             case R.id.itemLogout:
                 presenter.logout(myAccount);
+                return true;
+            case R.id.itemUserList:
+                presenter.getUserList();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -143,6 +150,12 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     public void saveUserName(String userName) {
         //TODO: save username
         chatSharedPreference.saveMyAccount(userName);
+    }
+
+    @Override
+    public void showUserList(String users) {
+        UserListDialog userListDialog = UserListDialog.newInstance(users);
+        userListDialog.show(getSupportFragmentManager(), "userListFragment");
     }
 
 

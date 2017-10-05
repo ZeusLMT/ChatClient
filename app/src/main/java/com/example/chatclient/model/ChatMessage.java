@@ -6,11 +6,11 @@ package com.example.chatclient.model;
 
 public class ChatMessage {
     private User user;
-    private long timestamp;
+    private String timestamp;
     private String message;
     private boolean myMessage;
 
-    public ChatMessage(User user, long timestamp, String message, boolean myMessage) {
+    public ChatMessage(User user, String timestamp, String message, boolean myMessage) {
         this.user = user;
         this.timestamp = timestamp;
         this.message = message;
@@ -25,11 +25,11 @@ public class ChatMessage {
         this.user = user;
     }
 
-    public long getTimestamp() {
+    public String getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(long timestamp) {
+    public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
     }
 

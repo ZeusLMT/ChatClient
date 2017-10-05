@@ -17,6 +17,8 @@ public interface MainContract {
         void logOutSuccess(String success);
 
         void saveUserName(String userName);
+
+        void showUserList(String users);
     }
 
     interface Presenter {
@@ -26,6 +28,8 @@ public interface MainContract {
         void receiveMessage(ResponseEvent event, String myAccount);
 
         void logout(String userName);
+
+        void getUserList();
 
     }
 }
