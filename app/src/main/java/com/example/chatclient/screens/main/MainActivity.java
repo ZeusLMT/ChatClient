@@ -8,7 +8,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -32,8 +31,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity implements MainContract.View {
-    @BindView(R.id.btnSend)
-    Button btnSend;
 
     @BindView(R.id.txtInput)
     EditText txtInput;
@@ -93,12 +90,6 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         presenter.sendMessage(txtInput.getText().toString());
         txtInput.setText("");
     }
-
-//    @OnClick({R.id.recyclerView, R.id.messLayout})
-//    void hideKeyboard(){
-//        Toast.makeText(this, "dmmmm", Toast.LENGTH_SHORT).show();
-//        ViewUtil.hideSoftKeyBoard(this);
-//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
