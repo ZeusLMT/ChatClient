@@ -4,10 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.text.TextUtils;
 
-/**
- * Created by Zeus on 3/10/2017.
- */
-
 public class ChatSharedPreference {
     private Context context;
     private SharedPreferences sharePrefs;

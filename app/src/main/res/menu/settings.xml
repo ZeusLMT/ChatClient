@@ -4,7 +4,7 @@
 
     <item
         android:id="@+id/itemUserList"
-        android:title="Show active users" />
+        android:title="Active users" />
     <item
         android:id="@+id/itemLogout"
         android:title="Log out" />

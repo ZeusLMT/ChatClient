@@ -8,10 +8,6 @@ import java.io.PrintWriter;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 
-/**
- * Created by HUYTRINH on 10/4/2017.
- */
-
 public class MessSender implements Runnable {
     private Socket socket;
     private String msgOut;

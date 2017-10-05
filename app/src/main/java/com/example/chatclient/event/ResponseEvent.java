@@ -1,9 +1,5 @@
 package com.example.chatclient.event;
 
-/**
- * Created by Zeus on 3/10/2017.
- */
-
 public  class ResponseEvent {
     private String serverMessage;
     private boolean connectSuccess;

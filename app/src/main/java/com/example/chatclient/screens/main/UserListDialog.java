@@ -12,10 +12,6 @@ import android.widget.TextView;
 
 import com.example.chatclient.R;
 
-/**
- * Created by Zeus on 5/10/2017.
- */
-
 public class UserListDialog extends DialogFragment {
     private static final String USER_LIST = "userList";
 

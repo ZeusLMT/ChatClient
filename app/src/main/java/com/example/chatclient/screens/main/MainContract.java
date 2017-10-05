@@ -3,10 +3,6 @@ package com.example.chatclient.screens.main;
 import com.example.chatclient.event.ResponseEvent;
 import com.example.chatclient.model.ChatMessage;
 
-/**
- * Created by Zeus on 3/10/2017.
- */
-
 public interface MainContract {
     interface View {
 
@@ -15,8 +11,6 @@ public interface MainContract {
         void showError(String error);
 
         void logOutSuccess(String success);
-
-        void saveUserName(String userName);
 
         void showUserList(String users);
     }
@@ -30,6 +24,8 @@ public interface MainContract {
         void logout(String userName);
 
         void getUserList();
+
+        void loadHistory();
 
     }
 }

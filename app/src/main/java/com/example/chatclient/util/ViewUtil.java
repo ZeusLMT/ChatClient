@@ -6,12 +6,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.EditText;
-
-/**
- * Created by Zeus on 26/9/2017.
- */
+import android.widget.ImageButton;
 
 public class ViewUtil {
 
@@ -26,7 +22,7 @@ public class ViewUtil {
     public static void hideKeyboardWhenTouchOutside(View view, final Activity activity) {
 
         // Set up touch listener for non-text box views to hide keyboard.
-        if (!((view instanceof EditText) || (view instanceof Button))) {
+        if (!((view instanceof EditText) || (view instanceof ImageButton))) {
             view.setOnTouchListener(new View.OnTouchListener() {
                 public boolean onTouch(View v, MotionEvent event) {
                     hideSoftKeyBoard(activity);

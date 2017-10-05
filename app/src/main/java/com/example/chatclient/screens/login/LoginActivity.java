@@ -7,8 +7,14 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.chatclient.R;
+import com.example.chatclient.event.ResponseEvent;
 import com.example.chatclient.screens.main.MainActivity;
+import com.example.chatclient.service.MessReceiver;
 import com.example.chatclient.util.ChatSharedPreference;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -30,6 +36,22 @@ public class LoginActivity extends AppCompatActivity implements LoginActivityCon
 
         presenter = new LoginPresenter(this);
         chatSharedPreference = new ChatSharedPreference(this);
+
+        //Start mess receiver
+        startMessReceiver();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        //Register
+        EventBus.getDefault().register(this);
+    }
+
+    private void startMessReceiver() {
+        MessReceiver msgReceiver = new MessReceiver();
+        Thread t = new Thread(msgReceiver);
+        t.start();
     }
 
     @OnClick(R.id.btnLogin)
@@ -53,5 +75,16 @@ public class LoginActivity extends AppCompatActivity implements LoginActivityCon
     @Override
     public void showLoginError(String error) {
         Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(ResponseEvent event) {
+        presenter.validLogin(event);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }

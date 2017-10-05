@@ -1,8 +1,6 @@
 package com.example.chatclient.screens.login;
 
-/**
- * Created by HUYTRINH on 10/4/2017.
- */
+import com.example.chatclient.event.ResponseEvent;
 
 public interface LoginActivityContract {
     interface View {
@@ -14,5 +12,7 @@ public interface LoginActivityContract {
     interface Presenter {
 
         void performLogin(String userName);
+
+        void validLogin(ResponseEvent event);
     }
 }

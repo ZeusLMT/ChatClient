@@ -2,15 +2,12 @@ package com.example.chatclient.screens.main;
 
 import com.example.chatclient.event.ResponseEvent;
 import com.example.chatclient.model.ChatMessage;
-import com.example.chatclient.model.User;
 import com.example.chatclient.service.MessSender;
 import com.example.chatclient.service.ServerCommands;
 import com.example.chatclient.service.ServerType;
 import com.example.chatclient.util.ServerUtil;
 
-/**
- * Created by Zeus on 3/10/2017.
- */
+import java.util.List;
 
 public class MainPresenter implements MainContract.Presenter {
     private MainContract.View view;
@@ -41,25 +38,19 @@ public class MainPresenter implements MainContract.Presenter {
                     view.showError(serverResponse);
                     break;
                 case ServerType.MESS:
-                    String username = ServerUtil.parseUsername(serverResponse);
-                    String timestamp = ServerUtil.parseTimeStamp(serverResponse);
-                    String messageContent = ServerUtil.parseMessage(serverResponse);
-
-                    boolean myMessage;
-
-                    if(username.equals(myAccount)) {
-                        myMessage = true;
-                    } else {
-                        myMessage = false;
-                    }
-
-                    ChatMessage chatMessage = new ChatMessage(new User(username), timestamp, messageContent, myMessage);
+                    ChatMessage chatMessage = ServerUtil.parseMessage(serverResponse, myAccount);
                     view.showMess(chatMessage);
                     break;
                 case ServerType.HISTORY:
+                    List<ChatMessage> chatMessList = ServerUtil.parseChatMessList(serverResponse, myAccount);
+
+                    for (ChatMessage chatMess: chatMessList) {
+                        view.showMess(chatMess);
+                    }
                     break;
                 case ServerType.USERLIST:
-                    view.showUserList(serverResponse);
+                    String userList = ServerUtil.parseUserList(serverResponse);
+                    view.showUserList(userList);
                     break;
                 case ServerType.USERNAME:
                     break;
@@ -89,6 +80,13 @@ public class MainPresenter implements MainContract.Presenter {
     @Override
     public void getUserList() {
         MessSender messSender = new MessSender(ServerCommands.GET_USERLIST);
+        Thread t = new Thread(messSender);
+        t.start();
+    }
+
+    @Override
+    public void loadHistory() {
+        MessSender messSender = new MessSender(ServerCommands.GET_HISTORY);
         Thread t = new Thread(messSender);
         t.start();
     }

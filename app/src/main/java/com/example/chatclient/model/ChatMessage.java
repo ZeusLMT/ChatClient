@@ -1,9 +1,5 @@
 package com.example.chatclient.model;
 
-/**
- * Created by Zeus on 3/10/2017.
- */
-
 public class ChatMessage {
     private User user;
     private String timestamp;

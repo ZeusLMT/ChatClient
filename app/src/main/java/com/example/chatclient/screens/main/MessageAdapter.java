@@ -13,10 +13,6 @@ import com.example.chatclient.model.ChatMessage;
 
 import java.util.List;
 
-/**
- * Created by Zeus on 3/10/2017.
- */
-
 public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHolder> {
     private List<ChatMessage> chatMessageList;
     private Context context;

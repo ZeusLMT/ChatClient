@@ -30,12 +30,14 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.example.chatclient.R.id.recyclerView;
+
 public class MainActivity extends AppCompatActivity implements MainContract.View {
 
     @BindView(R.id.txtInput)
     EditText txtInput;
 
-    @BindView(R.id.recyclerView)
+    @BindView(recyclerView)
     RecyclerView recycleView;
 
     private MainContract.Presenter presenter;
@@ -63,6 +65,9 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
         //hidekeyboard
         ViewUtil.hideKeyboardWhenTouchOutside(findViewById(R.id.messLayout), this);
+
+        //load history
+        presenter.loadHistory();
     }
 
     private void startMessReceiver() {
@@ -75,6 +80,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         chatMessageList = new ArrayList<>();
         messageAdapter = new MessageAdapter(chatMessageList, this);
         recycleView.setAdapter(messageAdapter);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recycleView.setLayoutManager(new LinearLayoutManager(this));
     }
 
@@ -115,6 +121,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     @Override
     public void showMess(ChatMessage chatMessage) {
         chatMessageList.add(chatMessage);
+        recycleView.scrollToPosition(chatMessageList.size() - 1);
         messageAdapter.notifyDataSetChanged();
     }
 
@@ -135,12 +142,6 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         Intent intent = new Intent(this, LoginActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
-    }
-
-    @Override
-    public void saveUserName(String userName) {
-        //TODO: save username
-        chatSharedPreference.saveMyAccount(userName);
     }
 
     @Override
