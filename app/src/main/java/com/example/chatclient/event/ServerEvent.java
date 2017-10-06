@@ -1,10 +1,10 @@
 package com.example.chatclient.event;
 
-public  class ResponseEvent {
+public  class ServerEvent {
     private String serverMessage;
     private boolean connectSuccess;
 
-    public ResponseEvent(String serverMessage, boolean connectSuccess) {
+    public ServerEvent(String serverMessage, boolean connectSuccess) {
         this.serverMessage = serverMessage;
         this.connectSuccess = connectSuccess;
     }

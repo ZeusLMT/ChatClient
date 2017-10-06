@@ -1,4 +1,4 @@
-package com.example.chatclient.service;
+package com.example.chatclient.server;
 
 public class ServerCommands {
     public static final String SET_USERNAME = ":user ";

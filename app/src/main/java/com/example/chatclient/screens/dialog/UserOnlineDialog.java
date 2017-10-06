@@ -1,4 +1,4 @@
-package com.example.chatclient.screens.main;
+package com.example.chatclient.screens.dialog;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -11,16 +11,20 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.example.chatclient.R;
+import com.example.chatclient.model.OnlineList;
+import com.example.chatclient.model.User;
 
-public class UserListDialog extends DialogFragment {
-    private static final String USER_LIST = "userList";
+import java.util.List;
 
-    public static UserListDialog newInstance(String userList) {
+public class UserOnlineDialog extends DialogFragment {
+    private static final String ONLINE_LIST = "onlineList";
+
+    public static UserOnlineDialog newInstance(OnlineList onlineList) {
 
         Bundle args = new Bundle();
-        args.putString(USER_LIST, userList);
+        args.putParcelable(ONLINE_LIST, onlineList);
 
-        UserListDialog fragment = new UserListDialog();
+        UserOnlineDialog fragment = new UserOnlineDialog();
         fragment.setArguments(args);
         return fragment;
     }
@@ -31,18 +35,21 @@ public class UserListDialog extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         // Get the layout inflater
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        View view = inflater.inflate(R.layout.dialog_userlist, null);
-        // Inflate and set the layout for the dialog
-        String userList = getArguments().getString(USER_LIST);
-        TextView txtUserList = (TextView) view.findViewById(R.id.txtUserList);
-        txtUserList.setText(userList);
+        View view = inflater.inflate(R.layout.dialog_online, null);
+
+        OnlineList onlineList = getArguments().getParcelable(ONLINE_LIST);
+        List<User> userOnline = onlineList.getUserList();
+
+        TextView txtOnline = (TextView) view.findViewById(R.id.txtOnline);
+        for (int i = 0; i < userOnline.size(); i++) {
+            txtOnline.append((i+1) + ". " + userOnline.get(i).getName() + "\n");
+        }
 
         // Pass null as the parent view because its going in the dialog layout
         builder.setView(view)
-                .setTitle("User list:")
                 .setNegativeButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        UserListDialog.this.getDialog().cancel();
+                        UserOnlineDialog.this.getDialog().cancel();
                     }
                 });
 

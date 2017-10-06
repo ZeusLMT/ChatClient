@@ -7,10 +7,10 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.chatclient.R;
-import com.example.chatclient.event.ResponseEvent;
+import com.example.chatclient.event.ServerEvent;
 import com.example.chatclient.screens.main.MainActivity;
-import com.example.chatclient.service.MessReceiver;
-import com.example.chatclient.util.ChatSharedPreference;
+import com.example.chatclient.server.ReceiverThread;
+import com.example.chatclient.util.AppPref;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -26,7 +26,7 @@ public class LoginActivity extends AppCompatActivity implements LoginActivityCon
     EditText txtUserName;
 
     private LoginActivityContract.Presenter presenter;
-    private ChatSharedPreference chatSharedPreference;
+    private AppPref chatSharedPreference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +35,7 @@ public class LoginActivity extends AppCompatActivity implements LoginActivityCon
         ButterKnife.bind(this);
 
         presenter = new LoginPresenter(this);
-        chatSharedPreference = new ChatSharedPreference(this);
+        chatSharedPreference = new AppPref(this);
 
         //Start mess receiver
         startMessReceiver();
@@ -49,7 +49,7 @@ public class LoginActivity extends AppCompatActivity implements LoginActivityCon
     }
 
     private void startMessReceiver() {
-        MessReceiver msgReceiver = new MessReceiver();
+        ReceiverThread msgReceiver = new ReceiverThread();
         Thread t = new Thread(msgReceiver);
         t.start();
     }
@@ -61,7 +61,7 @@ public class LoginActivity extends AppCompatActivity implements LoginActivityCon
 
     @Override
     public void showLoginSuccess(String success, String userName) {
-        //Toast.makeText(this, success, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, success, Toast.LENGTH_SHORT).show();
 
         //TODO: save username
         chatSharedPreference.saveMyAccount(userName);
@@ -78,7 +78,7 @@ public class LoginActivity extends AppCompatActivity implements LoginActivityCon
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessageEvent(ResponseEvent event) {
+    public void onMessageEvent(ServerEvent event) {
         presenter.validLogin(event);
     }
 

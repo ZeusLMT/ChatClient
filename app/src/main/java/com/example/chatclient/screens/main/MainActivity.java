@@ -11,18 +11,23 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.chatclient.App;
 import com.example.chatclient.R;
-import com.example.chatclient.event.ResponseEvent;
-import com.example.chatclient.model.ChatMessage;
+import com.example.chatclient.event.ServerEvent;
+import com.example.chatclient.model.Message;
+import com.example.chatclient.model.OnlineList;
+import com.example.chatclient.screens.adapter.MessageAdapter;
+import com.example.chatclient.screens.dialog.UserOnlineDialog;
 import com.example.chatclient.screens.login.LoginActivity;
-import com.example.chatclient.service.MessReceiver;
-import com.example.chatclient.util.ChatSharedPreference;
+import com.example.chatclient.server.ReceiverThread;
+import com.example.chatclient.util.AppPref;
 import com.example.chatclient.util.ViewUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,8 +46,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     RecyclerView recycleView;
 
     private MainContract.Presenter presenter;
-    private ChatSharedPreference chatSharedPreference;
-    private List<ChatMessage> chatMessageList;
+    private AppPref chatSharedPreference;
+    private List<Message> chatMessageList;
     private MessageAdapter messageAdapter;
     private String myAccount;
 
@@ -54,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
         presenter = new MainPresenter(this);
 
-        chatSharedPreference = new ChatSharedPreference(this);
+        chatSharedPreference = new AppPref(this);
         myAccount = chatSharedPreference.getMyAccount();
 
         //setup chat list
@@ -71,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     }
 
     private void startMessReceiver() {
-        MessReceiver msgReceiver = new MessReceiver();
+        ReceiverThread msgReceiver = new ReceiverThread();
         Thread t = new Thread(msgReceiver);
         t.start();
     }
@@ -80,7 +85,6 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         chatMessageList = new ArrayList<>();
         messageAdapter = new MessageAdapter(chatMessageList, this);
         recycleView.setAdapter(messageAdapter);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recycleView.setLayoutManager(new LinearLayoutManager(this));
     }
 
@@ -119,7 +123,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     }
 
     @Override
-    public void showMess(ChatMessage chatMessage) {
+    public void showMess(Message chatMessage) {
         chatMessageList.add(chatMessage);
         recycleView.scrollToPosition(chatMessageList.size() - 1);
         messageAdapter.notifyDataSetChanged();
@@ -142,17 +146,24 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         Intent intent = new Intent(this, LoginActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
+
+        //TODO: Close socket
+        try {
+            App.getSocket().close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
-    public void showUserList(String users) {
-        UserListDialog userListDialog = UserListDialog.newInstance(users);
+    public void showUserList(OnlineList onlineList) {
+        UserOnlineDialog userListDialog = UserOnlineDialog.newInstance(onlineList);
         userListDialog.show(getSupportFragmentManager(), "userListFragment");
     }
 
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessageEvent(ResponseEvent event) {
+    public void onMessageEvent(ServerEvent event) {
         presenter.receiveMessage(event, myAccount);
     }
 

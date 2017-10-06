@@ -1,6 +1,6 @@
 package com.example.chatclient.screens.login;
 
-import com.example.chatclient.event.ResponseEvent;
+import com.example.chatclient.event.ServerEvent;
 
 public interface LoginActivityContract {
     interface View {
@@ -13,6 +13,6 @@ public interface LoginActivityContract {
 
         void performLogin(String userName);
 
-        void validLogin(ResponseEvent event);
+        void validLogin(ServerEvent event);
     }
 }

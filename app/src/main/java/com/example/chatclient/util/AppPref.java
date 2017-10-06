@@ -4,13 +4,13 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.text.TextUtils;
 
-public class ChatSharedPreference {
+public class AppPref {
     private Context context;
     private SharedPreferences sharePrefs;
     private SharedPreferences.Editor editor;
     private final String MYACCOUNT_KEY = "myAccount";
 
-    public ChatSharedPreference(Context context) {
+    public AppPref(Context context) {
         this.context = context;
         this.sharePrefs = context.getSharedPreferences("share_pref", Context.MODE_PRIVATE);
         editor = sharePrefs.edit();

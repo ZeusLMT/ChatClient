@@ -1,5 +1,5 @@
-package com.example.chatclient.service;
+package com.example.chatclient.server;
 
-public class Error {
+public class ServerError {
     public static final String ERROR_UNKNOWN_HOST = "Fail to find host";
 }

@@ -1,12 +1,12 @@
 package com.example.chatclient.model;
 
-public class ChatMessage {
+public class Message {
     private User user;
     private String timestamp;
     private String message;
     private boolean myMessage;
 
-    public ChatMessage(User user, String timestamp, String message, boolean myMessage) {
+    public Message(User user, String timestamp, String message, boolean myMessage) {
         this.user = user;
         this.timestamp = timestamp;
         this.message = message;

@@ -1,11 +1,10 @@
 package com.example.chatclient.util;
 
-import com.example.chatclient.model.ChatMessage;
+import com.example.chatclient.model.Message;
+import com.example.chatclient.model.OnlineList;
 import com.example.chatclient.model.User;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.TimeZone;
 
 public class ServerUtil {
@@ -37,17 +36,17 @@ public class ServerUtil {
         return serverResponse.substring(serverResponse.indexOf(".") + 1, serverResponse.length());
     }
 
-    public static String parseUserList(String serverResponse) {
+    public static OnlineList parseUserList(String serverResponse) {
         String[] users = serverResponse.split(",");
         String userList = "";
-
+        OnlineList onlineList = new OnlineList();
         for (int i = 0; i < users.length; i++) {
-            userList = userList + (i+1) + ". " + users[i] + "\n";
+            onlineList.add(new User(users[i]));
         }
-        return userList;
+        return onlineList;
     }
 
-    public static ChatMessage parseMessage(String serverResponse, String myAccount) {
+    public static Message parseMessage(String serverResponse, String myAccount) {
         String username = parseUsername(serverResponse);
         String timestamp = parseTimeStamp(serverResponse);
         String messageContent = parseMessage(serverResponse);
@@ -60,30 +59,8 @@ public class ServerUtil {
             myMessage = false;
         }
 
-        return new ChatMessage(new User(username), timestamp, messageContent, myMessage);
+        return new Message(new User(username), timestamp, messageContent, myMessage);
     }
 
-    public static List<ChatMessage> parseChatMessList(String serverResponse, String myAccount) {
-        String[] chatMessList = serverResponse.split(",");
-        List<ChatMessage> chatMessageList = new ArrayList<>();
 
-        for (int i = 0; i < chatMessList.length; i++) {
-            String username = parseUsername(chatMessList[i]);
-            String timestamp = parseTimeStamp(chatMessList[i]);
-            String messageContent = parseMessage(chatMessList[i]);
-
-            boolean myMessage;
-
-            if(username.equals(myAccount)) {
-                myMessage = true;
-            } else {
-                myMessage = false;
-            }
-
-            ChatMessage chatMessage = new ChatMessage(new User(username), timestamp, messageContent, myMessage);
-            chatMessageList.add(chatMessage);
-        }
-
-        return chatMessageList;
-    }
 }

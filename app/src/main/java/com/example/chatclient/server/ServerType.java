@@ -1,8 +1,7 @@
-package com.example.chatclient.service;
+package com.example.chatclient.server;
 
 public class ServerType {
     public static final String MESS = "M";
-    public static final String HISTORY = "H";
     public static final String QUIT = "Q";
     public static final String ERROR = "E";
     public static final String USERNAME = "U";

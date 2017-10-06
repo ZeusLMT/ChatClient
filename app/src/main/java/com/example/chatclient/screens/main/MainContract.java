@@ -1,25 +1,26 @@
 package com.example.chatclient.screens.main;
 
-import com.example.chatclient.event.ResponseEvent;
-import com.example.chatclient.model.ChatMessage;
+import com.example.chatclient.event.ServerEvent;
+import com.example.chatclient.model.Message;
+import com.example.chatclient.model.OnlineList;
 
 public interface MainContract {
     interface View {
 
-        void showMess(ChatMessage chatMessage);
+        void showMess(Message chatMessage);
 
         void showError(String error);
 
         void logOutSuccess(String success);
 
-        void showUserList(String users);
+        void showUserList(OnlineList onlineList);
     }
 
     interface Presenter {
 
         void sendMessage(String message);
 
-        void receiveMessage(ResponseEvent event, String myAccount);
+        void receiveMessage(ServerEvent event, String myAccount);
 
         void logout(String userName);
 

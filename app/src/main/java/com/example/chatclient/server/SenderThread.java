@@ -1,19 +1,18 @@
-package com.example.chatclient.service;
+package com.example.chatclient.server;
 
 import com.example.chatclient.App;
-import com.example.chatclient.Config;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 
-public class MessSender implements Runnable {
+public class SenderThread implements Runnable {
     private Socket socket;
     private String msgOut;
     private PrintWriter out;
 
-    public MessSender(String msgOut) {
+    public SenderThread(String msgOut) {
         socket = App.getSocket();
         this.msgOut = msgOut;
     }
@@ -22,7 +21,7 @@ public class MessSender implements Runnable {
     public void run() {
         try {
             if (!socket.isConnected()) {
-                socket.connect(new InetSocketAddress(Config.SERVER_IP, Config.SERVER_PORT));
+                socket.connect(new InetSocketAddress(ServerConfig.SERVER_IP, ServerConfig.SERVER_PORT));
             }
 
             out = new PrintWriter(socket.getOutputStream());
