@@ -8,9 +8,11 @@
     android:paddingTop="5dp">
 
     <RelativeLayout
+        android:id="@+id/relativeLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/chat_bubble_right"
+        android:elevation="2dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true">
 
@@ -19,45 +21,50 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
+            android:layout_alignParentTop="true"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/txtUserName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="20dp"
-                android:paddingRight="8dp"
-                android:paddingTop="5dp"
+                android:layout_gravity="left"
+                android:layout_marginBottom="0dp"
+                android:paddingLeft="5dp"
                 android:text="User1"
-                android:textAllCaps="true"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="@android:color/white"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/txtMessage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:autoLink="web"
+                android:layout_gravity="right"
 
-                android:maxWidth="280dp"
-                android:paddingLeft="20dp"
-                android:text="Rahul Agrawal is a good boy but he does not know what he wants." />
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                android:autoLink="web"
+                android:maxWidth="300dp"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:text="Rahul Agrawal is a good boy but he does not know what he wants."
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textSize="18sp" />
 
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/txtTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/chat_company_reply_text"
-            android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@id/chat_company_reply_text"
-            android:paddingBottom="5dp"
-            android:paddingRight="10dp"
-            android:text="17:10"
-            android:textSize="10sp" />
-
     </RelativeLayout>
+
+    <TextView
+        android:id="@+id/txtTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="17:10"
+        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+        android:layout_centerVertical="true"
+        android:layout_toStartOf="@+id/relativeLayout"
+        android:layout_marginEnd="11dp" />
 
 </RelativeLayout>

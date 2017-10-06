@@ -1,5 +1,7 @@
 package com.example.chatclient.util;
 
+import android.util.Log;
+
 import com.example.chatclient.model.ChatMessage;
 import com.example.chatclient.model.User;
 
@@ -34,6 +36,7 @@ public class ServerUtil {
     }
 
     public static String parseServerResponse(String serverResponse) {
+        Log.i("abc", "ServerResponse: " + serverResponse);
         return serverResponse.substring(serverResponse.indexOf(".") + 1, serverResponse.length());
     }
 
@@ -66,7 +69,6 @@ public class ServerUtil {
     public static List<ChatMessage> parseChatMessList(String serverResponse, String myAccount) {
         String[] chatMessList = serverResponse.split(",");
         List<ChatMessage> chatMessageList = new ArrayList<>();
-
         for (int i = 0; i < chatMessList.length; i++) {
             String username = parseUsername(chatMessList[i]);
             String timestamp = parseTimeStamp(chatMessList[i]);

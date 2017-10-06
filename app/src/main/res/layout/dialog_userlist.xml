@@ -12,6 +12,5 @@
         android:layout_marginRight="32dp"
         android:isScrollContainer="true"
         android:text="TextView"
-        android:textAppearance="@style/TextAppearance.AppCompat"
-        android:textSize="18sp" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
 </ScrollView>

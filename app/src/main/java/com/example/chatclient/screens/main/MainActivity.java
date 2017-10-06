@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -50,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        getWindow().setBackgroundDrawableResource(R.drawable.chat_background);
         ButterKnife.bind(this);
 
         presenter = new MainPresenter(this);
@@ -80,7 +82,6 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         chatMessageList = new ArrayList<>();
         messageAdapter = new MessageAdapter(chatMessageList, this);
         recycleView.setAdapter(messageAdapter);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recycleView.setLayoutManager(new LinearLayoutManager(this));
     }
 
@@ -93,7 +94,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
     @OnClick(R.id.btnSend)
     void sendMessage() {
-        presenter.sendMessage(txtInput.getText().toString());
+        String userMessage = txtInput.getText().toString();
+        if(!TextUtils.isEmpty(userMessage)) presenter.sendMessage(userMessage);
         txtInput.setText("");
     }
 
@@ -159,6 +161,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        presenter.logout(myAccount);
         EventBus.getDefault().unregister(this);
     }
 }

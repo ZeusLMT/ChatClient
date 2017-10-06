@@ -1,5 +1,6 @@
 package com.example.chatclient.screens.main;
 
+import com.example.chatclient.App;
 import com.example.chatclient.event.ResponseEvent;
 import com.example.chatclient.model.ChatMessage;
 import com.example.chatclient.service.MessSender;
@@ -7,6 +8,7 @@ import com.example.chatclient.service.ServerCommands;
 import com.example.chatclient.service.ServerType;
 import com.example.chatclient.util.ServerUtil;
 
+import java.io.IOException;
 import java.util.List;
 
 public class MainPresenter implements MainContract.Presenter {

@@ -39,7 +39,7 @@ public class UserListDialog extends DialogFragment {
 
         // Pass null as the parent view because its going in the dialog layout
         builder.setView(view)
-                .setTitle("User list:")
+                .setTitle("Active users:")
                 .setNegativeButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         UserListDialog.this.getDialog().cancel();

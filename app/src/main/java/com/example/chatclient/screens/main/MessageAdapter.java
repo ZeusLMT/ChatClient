@@ -2,7 +2,6 @@ package com.example.chatclient.screens.main;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +26,6 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
     @Override
     public MessageAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = null;
-        Log.i("abc", "viewType: " + viewType);
         switch (viewType) {
             case TYPE_MY_MESSAGE:
                 v = LayoutInflater.from(parent.getContext())
