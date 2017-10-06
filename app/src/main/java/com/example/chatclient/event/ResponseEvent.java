@@ -13,15 +13,9 @@ public  class ResponseEvent {
         return serverMessage;
     }
 
-    public void setServerMessage(String serverMessage) {
-        this.serverMessage = serverMessage;
-    }
 
     public boolean isConnectSuccess() {
         return connectSuccess;
     }
 
-    public void setConnectSuccess(boolean connectSuccess) {
-        this.connectSuccess = connectSuccess;
-    }
 }

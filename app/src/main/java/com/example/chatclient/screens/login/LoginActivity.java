@@ -33,7 +33,6 @@ public class LoginActivity extends AppCompatActivity implements LoginActivityCon
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
-        //getWindow().setBackgroundDrawableResource(R.drawable.login_background);
 
         presenter = new LoginPresenter(this);
         chatSharedPreference = new ChatSharedPreference(this);

@@ -65,10 +65,10 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         //Start mess receiver
         startMessReceiver();
 
-        //hidekeyboard
+        //hide soft keyboard
         ViewUtil.hideKeyboardWhenTouchOutside(findViewById(R.id.messLayout), this);
 
-        //load history
+        //load message history
         presenter.loadHistory();
     }
 
@@ -137,10 +137,10 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     public void logOutSuccess(String success) {
         Toast.makeText(this, success, Toast.LENGTH_SHORT).show();
 
-        //TODO: clear SharePref
+        //clear SharePref
         chatSharedPreference.clear();
 
-        //TODO: goto login activity
+        //go to login activity
         Intent intent = new Intent(this, LoginActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);

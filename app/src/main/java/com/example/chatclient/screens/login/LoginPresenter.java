@@ -37,7 +37,6 @@ public class LoginPresenter implements LoginActivityContract.Presenter {
             //TODO: categorize
             String serverType = ServerUtil.parseType(serverMessage);
             String serverResponse = ServerUtil.parseServerResponse(serverMessage);
-
             switch (serverType) {
                 case ServerType.ERROR:
                     view.showLoginError(serverResponse);
